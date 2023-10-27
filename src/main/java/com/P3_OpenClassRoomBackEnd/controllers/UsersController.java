@@ -1,9 +1,10 @@
 package com.P3_OpenClassRoomBackEnd.controllers;
 
-import com.P3_OpenClassRoomBackEnd.service.auth.AuthenticationService;
-import com.P3_OpenClassRoomBackEnd.service.auth.LoginRequest;
-import com.P3_OpenClassRoomBackEnd.service.auth.RegisterRequest;
-import com.P3_OpenClassRoomBackEnd.service.auth.AuthenticationResponse;
+import com.P3_OpenClassRoomBackEnd.DTO.UsersDao;
+import com.P3_OpenClassRoomBackEnd.services.auth.AuthenticationResponse;
+import com.P3_OpenClassRoomBackEnd.services.auth.AuthenticationService;
+import com.P3_OpenClassRoomBackEnd.services.auth.LoginRequest;
+import com.P3_OpenClassRoomBackEnd.services.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,11 @@ public class UsersController {
             @RequestBody LoginRequest request
     ){
         return ResponseEntity.ok(authenticationService.login(request));
+    }
+
+    @GetMapping("me")
+    public UsersDao me(@RequestHeader("Authorization") String token ){
+        return authenticationService.me(token);
     }
 
 

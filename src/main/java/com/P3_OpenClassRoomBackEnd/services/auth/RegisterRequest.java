@@ -1,4 +1,4 @@
-package com.P3_OpenClassRoomBackEnd.service.auth;
+package com.P3_OpenClassRoomBackEnd.services.auth;
 
 import com.P3_OpenClassRoomBackEnd.models.Role;
 import lombok.AllArgsConstructor;
