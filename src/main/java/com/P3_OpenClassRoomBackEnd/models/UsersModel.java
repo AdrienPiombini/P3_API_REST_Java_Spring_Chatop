@@ -33,9 +33,6 @@ public class UsersModel implements UserDetails {
     private Role role;
 
 
-
-
-
     // Getters and setters
     public Integer getId() {
         return id;

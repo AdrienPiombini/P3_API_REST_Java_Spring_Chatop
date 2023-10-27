@@ -1,4 +1,4 @@
-package com.P3_OpenClassRoomBackEnd.service.auth;
+package com.P3_OpenClassRoomBackEnd.services.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationResponse {
     private String token ;
-
 
 }

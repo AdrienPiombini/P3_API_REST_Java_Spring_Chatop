@@ -11,13 +11,10 @@ import java.util.Optional;
 //microservice
 @Repository
 public interface UsersRepository extends JpaRepository<UsersModel, Integer>{
-    public UsersModel findUserByEmail(String email);
-
     public UsersModel save(UsersModel user) throws DataAccessException;
 
     public List<UsersModel> findAll();
 
-    ////
 
     Optional<UsersModel> findByEmail(String email);
 }
