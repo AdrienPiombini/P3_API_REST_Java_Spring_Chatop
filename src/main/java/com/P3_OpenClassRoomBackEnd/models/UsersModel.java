@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.sql.Time;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="users")
+@Table(name="users", indexes = @Index(columnList = "email", unique = true))
 public class UsersModel implements UserDetails {
 
     @Id
@@ -26,14 +26,12 @@ public class UsersModel implements UserDetails {
     private String email;
     private String name;
     private String password;
-    private Time created_at;
-    private Time updated_at;
+    private Date created_at;
+    private Date updated_at;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
-    // Getters and setters
     public Integer getId() {
         return id;
     }

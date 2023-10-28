@@ -1,6 +1,7 @@
 package com.P3_OpenClassRoomBackEnd.controllers;
 
 import com.P3_OpenClassRoomBackEnd.DTO.UsersDao;
+import com.P3_OpenClassRoomBackEnd.models.UsersModel;
 import com.P3_OpenClassRoomBackEnd.services.auth.AuthenticationResponse;
 import com.P3_OpenClassRoomBackEnd.services.auth.AuthenticationService;
 import com.P3_OpenClassRoomBackEnd.services.auth.LoginRequest;
@@ -32,14 +33,9 @@ public class UsersController {
     }
 
     @GetMapping("me")
-    public UsersDao me(@RequestHeader("Authorization") String token ){
-        return authenticationService.me(token);
-    }
-
-
-    @GetMapping("test")
-    public String test(){
-        return "Welcome Bro !";
+    public UsersDao retrieveUser(@RequestHeader("Authorization") String token ){
+        UsersModel usersModel= authenticationService.retrieveUser(token);
+        return  authenticationService.retrieveUserDao(usersModel);
     }
 
 }
