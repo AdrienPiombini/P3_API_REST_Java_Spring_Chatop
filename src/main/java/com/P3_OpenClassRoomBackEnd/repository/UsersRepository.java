@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 
-//microservice
 @Repository
 public interface UsersRepository extends JpaRepository<UsersModel, Integer>{
     public UsersModel save(UsersModel user) throws DataAccessException;
@@ -16,4 +15,6 @@ public interface UsersRepository extends JpaRepository<UsersModel, Integer>{
     public List<UsersModel> findAll();
 
     Optional<UsersModel> findByEmail(String email);
+
+    Optional<UsersModel> findById(Integer userId);
 }

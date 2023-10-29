@@ -53,7 +53,7 @@ public class AuthenticationService {
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    public UsersModel retrieveUser(String token){
+    public UsersModel retrieveUserByToken(String token){
         String jwt = token.substring(7);
         String email = jwtService.extractUsername(jwt);
         var usersModels = usersRepository.findByEmail(email);
@@ -65,4 +65,8 @@ public class AuthenticationService {
     }
 
 
+    public UsersModel retrieveUserById(Integer userId) {
+        var usersModel =  usersRepository.findById(userId);
+        return usersModel.get();
+    }
 }

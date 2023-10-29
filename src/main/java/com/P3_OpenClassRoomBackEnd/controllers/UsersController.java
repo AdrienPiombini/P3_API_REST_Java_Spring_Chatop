@@ -34,7 +34,7 @@ public class UsersController {
 
     @GetMapping("me")
     public UsersDao retrieveUser(@RequestHeader("Authorization") String token ){
-        UsersModel usersModel= authenticationService.retrieveUser(token);
+        UsersModel usersModel= authenticationService.retrieveUserByToken(token);
         return  authenticationService.retrieveUserDao(usersModel);
     }
 

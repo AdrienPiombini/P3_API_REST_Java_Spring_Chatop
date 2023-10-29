@@ -15,7 +15,7 @@ public class RegisterRentalServices {
     private final RentalsRepository rentalsRepository;
     private final AuthenticationService authenticationService;
     public void registerRental(RentalsModel rentalsModel, String token){
-        UsersModel usersModel = authenticationService.retrieveUser(token);
+        UsersModel usersModel = authenticationService.retrieveUserByToken(token);
         rentalsModel.setUsersModel(usersModel);
         rentalsModel.setCreated_at(new Date());
         rentalsRepository.save(rentalsModel);
