@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Date;
 
 
 @Data
@@ -11,12 +13,15 @@ import java.sql.Time;
 public class RentalsDao {
 
     private Integer id;
-
-    private UsersDao usersDao;
-    private String email;
     private String name;
-    private Time created_at;
-    private Time updated_at;
+    private Integer surface;
+    private Integer price;
+    private String picture;
+    private String description;
+    private Date created_at;
+    private Date updated_at;
+    private Integer owner_id;
+
 
 
 

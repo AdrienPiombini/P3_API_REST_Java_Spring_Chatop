@@ -14,9 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-
-    private final UsersDao usersDao;
-
     private final UsersMapper usersMapper;
 
     private final UsersRepository usersRepository;
@@ -56,13 +53,20 @@ public class AuthenticationService {
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    public UsersDao me(String token) {
+    public UsersModel retrieveUserByToken(String token){
         String jwt = token.substring(7);
         String email = jwtService.extractUsername(jwt);
         var usersModels = usersRepository.findByEmail(email);
-        return usersMapper.fromUserModel(usersModels.get());
-         //UsersDao usersDao = usersModels.stream().map(usersModel -> usersMapper.fromUserModel(usersModel)).collect(Collectors.toList());
+        return usersModels.get();
+    }
+
+    public UsersDao retrieveUserDao(UsersModel usersModel) {
+        return usersMapper.fromUserModel(usersModel);
     }
 
 
+    public UsersModel retrieveUserById(Integer userId) {
+        var usersModel =  usersRepository.findById(userId);
+        return usersModel.get();
+    }
 }
