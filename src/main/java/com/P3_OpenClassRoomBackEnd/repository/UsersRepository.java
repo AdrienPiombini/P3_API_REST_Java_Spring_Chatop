@@ -1,5 +1,5 @@
 package com.P3_OpenClassRoomBackEnd.repository;
-import com.P3_OpenClassRoomBackEnd.models.UsersModel;
+import com.P3_OpenClassRoomBackEnd.models.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -9,12 +9,12 @@ import java.util.Optional;
 
 
 @Repository
-public interface UsersRepository extends JpaRepository<UsersModel, Integer>{
-    public UsersModel save(UsersModel user) throws DataAccessException;
+public interface UsersRepository extends JpaRepository<User, Integer>{
+    public User save(User user) throws DataAccessException;
 
-    public List<UsersModel> findAll();
+    public List<User> findAll();
 
-    Optional<UsersModel> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
-    Optional<UsersModel> findById(Integer userId);
+    Optional<User> findById(Integer userId);
 }

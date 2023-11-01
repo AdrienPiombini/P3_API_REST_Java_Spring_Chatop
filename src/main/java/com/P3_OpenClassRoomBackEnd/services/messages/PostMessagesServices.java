@@ -1,12 +1,12 @@
 package com.P3_OpenClassRoomBackEnd.services.messages;
 
 
-import com.P3_OpenClassRoomBackEnd.models.MessagesModel;
-import com.P3_OpenClassRoomBackEnd.models.RentalsModel;
-import com.P3_OpenClassRoomBackEnd.models.UsersModel;
+import com.P3_OpenClassRoomBackEnd.models.Message;
+import com.P3_OpenClassRoomBackEnd.models.Rental;
+import com.P3_OpenClassRoomBackEnd.models.User;
 import com.P3_OpenClassRoomBackEnd.repository.MessagesRepository;
-import com.P3_OpenClassRoomBackEnd.services.auth.AuthenticationService;
-import com.P3_OpenClassRoomBackEnd.services.rental.GetRentalsServices;
+import com.P3_OpenClassRoomBackEnd.services.user.UserService;
+import com.P3_OpenClassRoomBackEnd.services.rental.RentalServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +19,16 @@ public class PostMessagesServices {
 
     private final MessagesRepository messagesRepository;
 
-    private final AuthenticationService authenticationService;
+    private final UserService userService;
 
-    private final GetRentalsServices getRentalsServices;
+    private final RentalServices rentalServices;
     public PostMessageResponse postMessage(PostMessageRequest request){
-
-        UsersModel usersModel = authenticationService.retrieveUserById(request.getUser_id());
-        RentalsModel rentalsModel = getRentalsServices.getOneRentalModel(request.getRental_id());
-        var message = MessagesModel.builder()
+        User user = userService.retrieveUserById(request.getUser_id());
+        Rental rental = rentalServices.getOneRentalModel(request.getRental_id());
+        var message = Message.builder()
                 .message(request.getMessage())
-                .rentalsModel(rentalsModel)
-                .usersModel(usersModel)
+                .rental(rental)
+                .user(user)
                 .created_at(new Date())
                 .build();
 

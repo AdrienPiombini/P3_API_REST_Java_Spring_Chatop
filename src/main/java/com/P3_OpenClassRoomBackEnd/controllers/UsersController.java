@@ -1,7 +1,8 @@
 package com.P3_OpenClassRoomBackEnd.controllers;
 
-import com.P3_OpenClassRoomBackEnd.DTO.UsersDao;
-import com.P3_OpenClassRoomBackEnd.models.UsersModel;
+import com.P3_OpenClassRoomBackEnd.services.user.UserResponse;
+import com.P3_OpenClassRoomBackEnd.models.User;
+import com.P3_OpenClassRoomBackEnd.services.user.UserService;
 import com.P3_OpenClassRoomBackEnd.services.auth.AuthenticationResponse;
 import com.P3_OpenClassRoomBackEnd.services.auth.AuthenticationService;
 import com.P3_OpenClassRoomBackEnd.services.auth.LoginRequest;
@@ -17,25 +18,28 @@ import org.springframework.web.bind.annotation.*;
 public class UsersController {
 
     private final AuthenticationService authenticationService;
+    private final UserService userService;
 
     @PostMapping("register")
-    public ResponseEntity<AuthenticationResponse> register (
-            @RequestBody RegisterRequest request
-    ){
+    public ResponseEntity<AuthenticationResponse> register (@RequestBody RegisterRequest request){
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("login")
-    public ResponseEntity<AuthenticationResponse> login (
-            @RequestBody LoginRequest request
-    ){
+    public ResponseEntity<AuthenticationResponse> login (@RequestBody LoginRequest request){
         return ResponseEntity.ok(authenticationService.login(request));
     }
 
     @GetMapping("me")
-    public UsersDao retrieveUser(@RequestHeader("Authorization") String token ){
-        UsersModel usersModel= authenticationService.retrieveUserByToken(token);
-        return  authenticationService.retrieveUserDao(usersModel);
+    public UserResponse retrieveUser(){
+        User user = userService.retrieveUserByContext();
+        return  userService.userResponse(user);
+    }
+
+    @GetMapping("user/{id}")
+    public UserResponse retrieveUserById(@PathVariable(name = "id") Integer userId){
+        User user = userService.retrieveUserById(userId);
+        return  userService.userResponse(user);
     }
 
 }

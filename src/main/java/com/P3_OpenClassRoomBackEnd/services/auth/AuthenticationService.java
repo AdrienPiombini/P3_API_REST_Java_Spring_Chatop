@@ -1,9 +1,7 @@
 package com.P3_OpenClassRoomBackEnd.services.auth;
 
-import com.P3_OpenClassRoomBackEnd.mappers.UsersMapper;
 import com.P3_OpenClassRoomBackEnd.configuration.JwtService;
-import com.P3_OpenClassRoomBackEnd.models.UsersModel;
-import com.P3_OpenClassRoomBackEnd.DTO.UsersDao;
+import com.P3_OpenClassRoomBackEnd.models.User;
 import com.P3_OpenClassRoomBackEnd.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,15 +12,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UsersMapper usersMapper;
-
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        var user = UsersModel.builder()
+        var user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -53,20 +49,5 @@ public class AuthenticationService {
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    public UsersModel retrieveUserByToken(String token){
-        String jwt = token.substring(7);
-        String email = jwtService.extractUsername(jwt);
-        var usersModels = usersRepository.findByEmail(email);
-        return usersModels.get();
-    }
 
-    public UsersDao retrieveUserDao(UsersModel usersModel) {
-        return usersMapper.fromUserModel(usersModel);
-    }
-
-
-    public UsersModel retrieveUserById(Integer userId) {
-        var usersModel =  usersRepository.findById(userId);
-        return usersModel.get();
-    }
 }
