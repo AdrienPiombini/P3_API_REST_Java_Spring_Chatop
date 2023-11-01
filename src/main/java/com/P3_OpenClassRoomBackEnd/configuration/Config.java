@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
@@ -27,7 +28,14 @@ public class Config {
                 .authorizeHttpRequests(
                         authorizationManagerRequestMatcherRegistry ->
                                 authorizationManagerRequestMatcherRegistry
-                                        .requestMatchers(HttpMethod.POST,"auth/login", "auth/register")
+                                        .requestMatchers(
+                                        new AntPathRequestMatcher("/auth/login", HttpMethod.POST.toString()),
+                                        new AntPathRequestMatcher("/auth/register", HttpMethod.POST.toString()),
+                                        new AntPathRequestMatcher("/v3/api-docs/**", HttpMethod.GET.toString()),
+                                        new AntPathRequestMatcher("/swagger*/**", HttpMethod.GET.toString())
+
+                                        )
+                                //.requestMatchers(HttpMethod.POST,"auth/login", "auth/register")
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated()

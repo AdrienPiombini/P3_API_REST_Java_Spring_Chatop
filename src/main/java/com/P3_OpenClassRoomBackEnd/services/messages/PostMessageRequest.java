@@ -11,10 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostMessageRequest {
-
     private String message;
-
     private Integer user_id;
-
     private Integer rental_id;
 }

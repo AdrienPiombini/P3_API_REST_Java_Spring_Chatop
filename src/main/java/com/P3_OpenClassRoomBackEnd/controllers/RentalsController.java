@@ -1,12 +1,10 @@
 package com.P3_OpenClassRoomBackEnd.controllers;
 
 
-import com.P3_OpenClassRoomBackEnd.DTO.RentalsDao;
-import com.P3_OpenClassRoomBackEnd.models.RentalsModel;
-import com.P3_OpenClassRoomBackEnd.models.UsersModel;
-import com.P3_OpenClassRoomBackEnd.services.rental.RegisterRentalServices;
-import com.P3_OpenClassRoomBackEnd.services.rental.GetRentalsServices;
-import com.P3_OpenClassRoomBackEnd.services.rental.UpdateRentalService;
+import com.P3_OpenClassRoomBackEnd.models.Rental;
+import com.P3_OpenClassRoomBackEnd.services.rental.RentalRequest;
+import com.P3_OpenClassRoomBackEnd.services.rental.RentalResponse;
+import com.P3_OpenClassRoomBackEnd.services.rental.RentalServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,31 +15,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RentalsController {
 
-    private final GetRentalsServices rentalsServices;
-    private final RegisterRentalServices registerRentalServices;
-    private final UpdateRentalService updateRentalService;
+    private final RentalServices rentalServices;
 
     @PostMapping
-    public void savingRental(
-            @RequestBody RentalsModel rentalsModel,
-            @RequestHeader("Authorization") String token)
-    {
-        registerRentalServices.registerRental(rentalsModel, token);
+    public void savingRental(@ModelAttribute RentalRequest rental){
+        rentalServices.registerRental(rental);
     }
 
     @GetMapping
-    public List<RentalsDao> retrieveAll(){
-        return rentalsServices.getAllRentalsDao();
+    public List<RentalResponse> retrieveAll(){
+        return rentalServices.getAllRentalsDao();
     }
 
     @GetMapping("/{id}")
-    public RentalsDao retrieveOneRental(@PathVariable(name = "id") Integer rentalId){
-        RentalsModel rentalsModel = rentalsServices.getOneRentalModel(rentalId);
-        return rentalsServices.getOneRentalDao(rentalsModel);
+    public RentalResponse retrieveOneRental(@PathVariable(name = "id") Integer rentalId){
+        Rental rental = rentalServices.getOneRentalModel(rentalId);
+        return rentalServices.getOneRentalDao(rental);
     }
 
     @PutMapping("/{id}")
-    public void updateRental(@RequestBody RentalsModel changes,@PathVariable(name = "id") Integer rentalId){
-        updateRentalService.updateRental(changes, rentalId);
+    public void updateRental(@ModelAttribute RentalRequest request , @PathVariable(name = "id") Integer rentalId){
+        rentalServices.updateRental(request, rentalId);
     }
 }

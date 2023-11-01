@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name="messages")
-public class MessagesModel {
+public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,9 +25,9 @@ public class MessagesModel {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UsersModel usersModel;
+    private User user;
     @ManyToOne
     @JoinColumn(name = "rental_id", referencedColumnName = "id")
-    private RentalsModel rentalsModel;
+    private Rental rental;
 
 }

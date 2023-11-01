@@ -1,4 +1,4 @@
-package com.P3_OpenClassRoomBackEnd.DTO;
+package com.P3_OpenClassRoomBackEnd.services.user;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;
@@ -7,7 +7,7 @@ import java.sql.Date;
 
 @Data
 @Component
-public class UsersDao  {
+public class UserResponse {
 
     private Integer id;
     private String email;

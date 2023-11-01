@@ -1,5 +1,5 @@
 package com.P3_OpenClassRoomBackEnd.repository;
-import com.P3_OpenClassRoomBackEnd.models.RentalsModel;
+import com.P3_OpenClassRoomBackEnd.models.Rental;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,11 +9,11 @@ import java.util.Optional;
 
 //microservice
 @Repository
-public interface RentalsRepository extends JpaRepository<RentalsModel, Integer>{
-    public RentalsModel save(RentalsModel rentals);
+public interface RentalsRepository extends JpaRepository<Rental, Integer>{
+    public Rental save(Rental rentals);
 
-    public  List<RentalsModel> findAll();
+    public  List<Rental> findAll();
 
-    public Optional<RentalsModel> findById(Integer id);
+    public Optional<Rental> findById(Integer id);
 
 }
