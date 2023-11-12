@@ -4,8 +4,12 @@ import com.P3_OpenClassRoomBackEnd.mappers.UsersMapper;
 import com.P3_OpenClassRoomBackEnd.models.User;
 import com.P3_OpenClassRoomBackEnd.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +20,11 @@ public class UserService {
 
     public User retrieveUserByContext(){
         String authEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        var usersModels = usersRepository.findByEmail(authEmail);
-        return usersModels.get();
+        Optional<User> userModel = usersRepository.findByEmail(authEmail);
+        if(userModel.isPresent()){
+            return userModel.get();
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
     public UserResponse userResponse(User user) {
@@ -25,9 +32,8 @@ public class UserService {
     }
 
 
-    public User retrieveUserById(Integer userId) {
-        var usersModel =  usersRepository.findById(userId);
-        return usersModel.get();
+    public Optional<User> retrieveUserById(Integer userId) {
+        return usersRepository.findById(userId);
     }
 
 }

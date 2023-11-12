@@ -8,9 +8,12 @@ import com.P3_OpenClassRoomBackEnd.repository.MessagesRepository;
 import com.P3_OpenClassRoomBackEnd.services.user.UserService;
 import com.P3_OpenClassRoomBackEnd.services.rental.RentalServices;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,18 +25,32 @@ public class PostMessagesServices {
     private final UserService userService;
 
     private final RentalServices rentalServices;
-    public PostMessageResponse postMessage(PostMessageRequest request){
-        User user = userService.retrieveUserById(request.getUser_id());
-        Rental rental = rentalServices.getOneRentalModel(request.getRental_id());
-        var message = Message.builder()
-                .message(request.getMessage())
-                .rental(rental)
-                .user(user)
-                .created_at(new Date())
-                .build();
 
-        messagesRepository.save(message);
+    public ResponseEntity postMessage(PostMessageRequest request){
+        Optional<User> user = userService.retrieveUserById(request.getUser_id());
+        Optional<Rental> rental = rentalServices.getOneRentalModel(request.getRental_id());
+        if(user.isPresent() && rental.isPresent()){
+            Message message = Message.builder()
+                    .message(request.getMessage())
+                    .rental(rental.get())
+                    .user(user.get())
+                    .created_at(new Date())
+                    .build();
 
-        return PostMessageResponse.builder().message("Message send with success").build();
+            messagesRepository.save(message);
+
+            return ResponseEntity
+                    .ok(
+                    PostMessageResponse
+                            .builder()
+                            .message("Message send with success")
+                            .build());
+        }
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body("Error, verify data");
+
     }
+
+
 }
