@@ -10,7 +10,7 @@ This project is an API back-end for an application of rentals.
 To deploy this project run
 
 ```bash
-  Install Mysql and the database => `Create database P3_numdev;`
+  Install Mysql and the database => `Create database P3_CHATOP;`
 
   Then run the project in your IDE
    
