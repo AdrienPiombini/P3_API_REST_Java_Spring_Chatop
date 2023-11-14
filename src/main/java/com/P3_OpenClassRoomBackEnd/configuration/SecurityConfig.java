@@ -35,7 +35,6 @@ public class SecurityConfig {
                                         new AntPathRequestMatcher("/swagger*/**", HttpMethod.GET.toString())
 
                                         )
-                                //.requestMatchers(HttpMethod.POST,"auth/login", "auth/register")
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated()
@@ -46,43 +45,6 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
-
-    /*
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http)  throws Exception {
-        http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.authorizeHttpRequests(auth -> {
-            auth
-                    .requestMatchers("/auth/login").permitAll()
-                    .requestMatchers("/auth/register").permitAll()
-                    .requestMatchers("/auth/test").permitAll()
-                    .requestMatchers("/auth/*").authenticated()
-                    .anyRequest().authenticated();
-        }).build();
-    }
-
-    /*
-
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(loginRequest).passwordEncoder(bCryptPasswordEncoder);
-        return authenticationManagerBuilder.build();
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-
-     */
-
 
 }
 
