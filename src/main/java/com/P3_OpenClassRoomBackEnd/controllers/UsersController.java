@@ -26,16 +26,53 @@ public class UsersController {
     private final AuthenticationService authenticationService;
     private final UserService userService;
 
+    @Operation(
+            summary = "create a user",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201"
+                    ),
+                    @ApiResponse(
+                            description = "Data missing",
+                            responseCode = "400"
+                    )
+            }
+    )
     @PostMapping("register")
     public ResponseEntity<AuthenticationResponse> register (@RequestBody RegisterRequest request){
         return authenticationService.register(request);
     }
 
+    @Operation(
+            summary = "login as user",
+            responses = {
+            @ApiResponse(
+                    description = "JWT",
+                    responseCode = "200"
+            ),
+            @ApiResponse(
+                    description = "Unauthorized",
+                    responseCode = "401"
+            )
+    }
+    )
     @PostMapping("login")
     public ResponseEntity login (@RequestBody LoginRequest request){
         return authenticationService.login(request);
     }
 
+    @Operation(
+            summary = "get user information",
+            responses = {
+            @ApiResponse(
+                    responseCode = "200"
+            ),
+            @ApiResponse(
+                    description = "Not authorized",
+                    responseCode = "403"
+            )
+    }
+    )
     @GetMapping("me")
     public ResponseEntity<UserResponse> retrieveUser(){
         User user = userService.retrieveUserByContext();
@@ -43,6 +80,7 @@ public class UsersController {
     }
 
     @Operation(
+            summary = "get specific user information",
             responses = {
                     @ApiResponse(
                             responseCode = "200"

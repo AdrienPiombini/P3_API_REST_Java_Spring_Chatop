@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +38,7 @@ public class RentalServices {
         return rentalsDao;
     }
 
-    public void registerRental(RentalRequest request){
+    public ResponseEntity registerRental(RentalRequest request){
         User user = userService.retrieveUserByContext();
         Rental rental = Rental.builder()
                 .name(request.getName())
@@ -53,6 +54,7 @@ public class RentalServices {
             rental.setPicture(file.getOriginalFilename());
         }
         rentalsRepository.save(rental);
+        return ResponseEntity.created(URI.create("/api/rentals")).body("created");
     }
 
     public ResponseEntity updateRental(RentalRequest request, Rental rental) {

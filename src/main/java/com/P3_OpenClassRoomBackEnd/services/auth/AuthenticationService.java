@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.naming.AuthenticationException;
+import java.net.URI;
 import java.util.Date;
 import java.util.Optional;
 
@@ -48,10 +49,15 @@ public class AuthenticationService {
 
         String jwtToken = jwtService.generateToken(user);
 
-        return ResponseEntity.ok(AuthenticationResponse
-                .builder()
-                .token(jwtToken)
-                .build());
+        return ResponseEntity.created(
+                URI.create("/api/auth/register"))
+                        .body(
+                                AuthenticationResponse
+                                        .builder()
+                                        .token(jwtToken)
+                                        .build()
+                        );
+
     }
 
 

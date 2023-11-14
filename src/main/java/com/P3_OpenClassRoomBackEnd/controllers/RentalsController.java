@@ -8,6 +8,7 @@ import com.P3_OpenClassRoomBackEnd.services.rental.RentalServices;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,12 @@ public class RentalsController {
     private final RentalServices rentalServices;
 
     @Operation(
+            summary = "Create a rental",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201"
+                    )
+            },
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     content = @Content(
                             mediaType = "multipart/form-data",
@@ -33,15 +40,22 @@ public class RentalsController {
             )
     )
     @PostMapping
-    public void savingRental(@ModelAttribute RentalRequest rental){
-        rentalServices.registerRental(rental);
+    public ResponseEntity savingRental(@ModelAttribute RentalRequest rental){
+        return rentalServices.registerRental(rental);
     }
 
+    @Operation(
+            summary = "Retrieve all rentals"
+    )
     @GetMapping
     public List<RentalResponse> retrieveAll(){
         return rentalServices.getAllRentalsDao();
     }
 
+
+    @Operation(
+            summary = "Retrieve one rental"
+    )
     @GetMapping("/{id}")
     public ResponseEntity retrieveOneRental(@PathVariable(name = "id") Integer rentalId){
         Optional<Rental> rental = rentalServices.getOneRentalModel(rentalId);
@@ -52,6 +66,17 @@ public class RentalsController {
     }
 
     @Operation(
+            summary = "Update a rental",
+            description = "Update a rental with id",
+            responses = {
+                    @ApiResponse(
+                            description = "rental updated",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401"
+                    )
+            },
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     content = @Content(
                             mediaType = "multipart/form-data",
